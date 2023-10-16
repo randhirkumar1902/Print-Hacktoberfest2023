@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+
+struct Task {
+    std::string description;
+    bool completed;
+};
+
+void addTask(std::vector<Task>& tasks, const std::string& description) {
+    Task task{description, false};
+    tasks.push_back(task);
+    std::cout << "Task added: " << description << std::endl;
+}
+
+void markTaskComplete(std::vector<Task>& tasks, int index) {
+    if (index >= 0 && index < tasks.size()) {
+        tasks[index].completed = true;
+        std::cout << "Task marked as completed: " << tasks[index].description << std::endl;
+    } else {
+        std::cout << "Invalid task index." << std::endl;
+    }
+}
+
+void listTasks(const std::vector<Task>& tasks) {
+    std::cout << "To-Do List:" << std::endl;
+    for (int i = 0; i < tasks.size(); i++) {
+        std::cout << "[" << (tasks[i].completed ? "X" : " ") << "] " << i << ". " << tasks[i].description << std::endl;
+    }
+}
+
+int main() {
+    std::vector<Task> tasks;
+
+    while (true) {
+        std::cout << "\nOptions:\n";
+        std::cout << "1. Add Task\n";
+        std::cout << "2. Mark Task as Complete\n";
+        std::cout << "3. List Tasks\n";
+        std::cout << "4. Quit\n";
+
+        int choice;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        if (choice == 1) {
+            std::string description;
+            std::cout << "Enter task description: ";
+            std::cin.ignore();  // Clear the input buffer
+            std::getline(std::cin, description);
+            addTask(tasks, description);
+        } else if (choice == 2) {
+            int index;
+            std::cout << "Enter the index of the task to mark as complete: ";
+            std::cin >> index;
+            markTaskComplete(tasks, index);
+        } else if (choice == 3) {
+            listTasks(tasks);
+        } else if (choice == 4) {
+            break;
+        } else {
+            std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    }
+
+    return 0;
+}
